@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com_memberDAO">
+ 	<insert id="insert_com_member" parameterType="com_member">
+ 		<![CDATA[
+ 		insert into com_member values(#{id},#{password},#{email},#{phone},#{address},#{reg_num},#{brand_name},#{brand_name_ko} )
+ 		]]>
+ 	</insert>
+ 	
+ 	<update id="update_com_member" parameterType="com_member">
+ 		<![CDATA[
+ 		update com_member set password = #{password}, email = #{email}, phone = #{phone}, address = #{address}, brand_name =#{brand_name}, brand_name_ko=#{brand_name_ko} where id = #{id}
+ 		]]>
+ 	</update>
+ 	
+ 	<delete id="delete_com_member" parameterType="com_member">
+		<![CDATA[
+		delete com_member where id=#{id}
+		]]>
+	</delete>
+	
+	<select id="com_member_id_check" parameterType="com_member" resultType="int">
+		<![CDATA[
+		select count(*) from com_member where id = #{id}
+		]]>
+	</select>
+	
+	<select id="count_com_member" resultType="int" parameterType="com_member">
+		<![CDATA[
+		select count(*) from com_member where ${search_condition} like '%'||#{search_keyword}||'%'
+		]]>
+	</select>
+	
+	<select id="select_com_member" resultType="com_member" parameterType="com_member">
+		<![CDATA[
+		select * from com_member where id=#{id}
+		]]>
+	</select>
+	
+	<select id="select_com_member_list" resultType="com_member" parameterType="page">
+		<![CDATA[
+		select * 
+		from (
+			select rownum rn, a.* 
+				from (
+						select * 
+						from com_member 
+						where ${search_condition} like '%'||#{search_keyword}||'%' 
+						) a
+				)
+		where rn between #{start} and #{end}
+		]]>
+	</select>
+ 	
+</mapper>

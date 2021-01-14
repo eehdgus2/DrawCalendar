@@ -1,0 +1,489 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>calendar</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="resources/calendar.css">
+</head>
+<body>
+<div class="calendar">
+	<div class="header">
+		<div class="year-month"></div>
+		<div class="nav">
+			<button class="nav-btn go-prev" onclick="prevWeek()">&lt;</button>
+			<button class="nav-btn go-today" onclick="goToday()">Today</button>
+			<button class="nav-btn go-next" onclick="nextWeek()">&gt;</button>
+		</div>
+	</div>
+	<div class="main">
+		<div class="days">
+			 <div class="day">일</div>
+             <div class="day">월</div>
+             <div class="day">화</div>
+             <div class="day">수</div>
+             <div class="day">목</div>
+             <div class="day">금</div>
+             <div class="day">토</div> 
+		</div>
+		<div class="dates"></div>
+	</div>
+</div>
+<script>
+	/* jshint esversion: 6 */
+	
+	let date = new Date();
+	
+	
+	const renderCalendar = () => {
+		
+		const thisYear = date.getFullYear();
+		const thisMonth = date.getMonth();
+		const thisDate = date.getDate();
+		const thisDay = date.getDay();
+		const dateCnt = 35;
+		
+		document.querySelector('.year-month').textContent = thisYear+'년'+(thisMonth+1)+'월'+thisDate+'일'+thisDay;
+	
+		const thisFirst = new Date(thisYear, thisMonth, 1);
+		const TFDate = thisFirst.getDate();
+		const TFDay = thisFirst.getDay();
+		
+		const preLast = new Date(thisYear, thisMonth, 0);
+		const thisLast = new Date(thisYear, thisMonth+1, 0);
+		const nextLast = new Date(thisYear, thisMonth+2, 0);
+		
+		const PLDate = preLast.getDate();
+		const TLDate = thisLast.getDate();
+		const NLDate = nextLast.getDate();
+		
+		const PLDay = preLast.getDay();
+		const TLDay = thisLast.getDay();
+		const NLDay = nextLast.getDay();
+		
+		const prevDates = [];
+		const thisDates = [];
+		const nextDates = [];
+		
+		 if( TFDay === 0 ) { // 앞에 7개의 data가 와야함
+			if( thisDate <= 7 ) { //첫째주는 전부 지난달 정보
+				for( let i = 0; i < 7; i++) {
+					prevDates.unshift(PLDate-i);	
+				} 
+				for( let i = 1; i < 35-prevDates.length+1; i ++ ) {
+					thisDates.push(i); 
+				}
+			}		
+			if( thisDate >7 && thisDate <=14) { //첫째주부터 이번달 정보 + 막날이후 다음달 정보
+				for( let i = 1; i <= TLDate; i++) {
+					thisDates.push(i);	
+				} 
+				for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+					nextDates.push(i); 
+				}
+			}
+			if( thisDate >14 && thisDate <=21) {
+				for( let i = 8; i < TLDate; i++) {
+					thisDates.push(i);	
+				} 
+				for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+					nextDates.push(i); 
+				}
+			}
+			if( thisDate >21 && thisDate <=28) {
+				for( let i = 15; i < TLDate; i++) {
+					thisDates.push(i);	
+				} 
+				for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+					nextDates.push(i); 
+				}
+			}
+			if( thisDate >28) {
+				for( let i = 22; i < TLDate; i++) {
+					thisDates.push(i);	
+				} 
+				for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+					nextDates.push(i); 
+				}
+			}
+		} 
+		 
+		// Case 1 ==========================
+		 
+		 if( TFDay === 1 ) { // 앞에 8개의 data가 와야함
+				if( thisDate <= 6 ) { //첫째주는 전부 지난달 정보
+					for( let i = 0; i < 8; i++) {
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length+1; i ++ ) {
+						thisDates.push(i); 
+					}
+				}		
+				if( thisDate >6 && thisDate <=13) { //첫째주부터 이번달 정보 + 막날이후 다음달 정보
+					for( let i = 0; i < 1; i++) {
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >13 && thisDate <=20) {
+					for( let i = 7; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >20 && thisDate <=27) {
+					for( let i = 14; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >27) {
+					for( let i = 21; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+			} 
+		
+			//case2 =======================
+			
+			 if( TFDay === 2 ) { // 앞에 9개의 data가 와야함
+				if( thisDate <= 5 ) { //첫째주는 전부 지난달 정보
+					for( let i = 0; i < 9; i++) {
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length+1; i ++ ) {
+						thisDates.push(i); 
+					}
+				}		
+				if( thisDate >5 && thisDate <=12) { //첫째주부터 이번달 정보 + 막날이후 다음달 정보
+					for( let i = 0; i < 2; i++) {
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >12 && thisDate <= 19) {
+					for( let i = 6; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >19 && thisDate <=26) {
+					for( let i = 13; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >26) {
+					for( let i = 21; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+			} 
+			
+		
+			//case 3
+			
+			if( TFDay === 3 ) { // +1
+				if( thisDate <= 4 ) { // -1
+					for( let i = 0; i < 10; i++) { //+1
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length+1; i ++ ) {
+						thisDates.push(i); 
+					}
+				}		
+			
+				if( thisDate >4 && thisDate <=11) { //-1
+					for( let i = 0; i < 3; i++) { // +1
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				
+				if( thisDate >11 && thisDate <= 18) { //-1
+					for( let i = 5; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >18 && thisDate <=25) { //-1
+					for( let i = 12; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >25) { //-1
+					for( let i = 19; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+			} 
+			
+			//case4
+			
+			if( TFDay === 4 ) { // +1
+				if( thisDate <= 3 ) { // -1
+					for( let i = 0; i < 11; i++) { //+1
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length+1; i ++ ) {
+						thisDates.push(i); 
+					}
+				}		
+			
+				if( thisDate >3 && thisDate <=10) { //-1
+					for( let i = 0; i < 4; i++) { // +1
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				
+				if( thisDate >10 && thisDate <= 17) { //-1
+					for( let i = 4; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >17 && thisDate <=24) { //-1
+					for( let i = 11; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >24) { //-1
+					for( let i = 18; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+			} 
+			
+			//case 5
+			
+			if( TFDay === 5 ) { // +1
+				if( thisDate <= 2 ) { // -1
+					for( let i = 0; i < 12; i++) { //+1
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length+1; i ++ ) {
+						thisDates.push(i); 
+					}
+				}		
+			
+				if( thisDate >2 && thisDate <=9) { //-1
+					for( let i = 0; i < 5; i++) { // +1
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < 34-prevDates.length; i++) {
+						thisDates.push(i);	
+					} 
+					
+				}
+				
+				if( thisDate >9 && thisDate <= 16) { //-1
+					for( let i = 3; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >16 && thisDate <=23) { //-1
+					for( let i = 10; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >23) { //-1
+					for( let i = 17; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+			} 
+			
+			//case 6
+			
+				if( TFDay === 6 ) { // +1
+				if( thisDate <= 1 ) { // -1
+					for( let i = 0; i < 13; i++) { //+1
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length+1; i ++ ) {
+						thisDates.push(i); 
+					}
+				}		
+			
+				if( thisDate >1 && thisDate <= 8) { //-1
+					for( let i = 0; i < 6; i++) { // +1
+						prevDates.unshift(PLDate-i);	
+					} 
+					for( let i = 1; i < TLDate+1; i++) {
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-prevDates.length-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				
+				if( thisDate >8 && thisDate <= 15) { //-1
+					for( let i = 2; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >15 && thisDate <=22) { //-1
+					for( let i = 9; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+				if( thisDate >22) { //-1
+					for( let i = 16; i < TLDate+1; i++) { //-1
+						thisDates.push(i);	
+					} 
+					for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+						nextDates.push(i); 
+					}
+				}
+			} 
+			
+	 	/* if(thisDate >=8 && thisDate <= 13) {
+			for (let i = 0; i <= PLDay+7; i++) {
+				prevDates.unshift(PLDate - i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length; i++) {
+				thisDates.push(i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		}
+	 	
+		 if(thisDate >13 && thisDate <= 20) {
+			for(let i = 1; i <= TLDate; i++ ) {
+				thisDates.push(i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		} */
+		 /*
+		if(thisDate > 12 && thisDate <=19 ) {
+			for(let i = 0; i <= TLDay; i++ ) {
+				thisDates.unshift(TLDate-i);
+			}
+			
+			for (let i = 1; i <= dateCnt-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		}
+		
+		if(thisDate > 19 ) {
+			for(let i = 0; i <= TLDay+7; i++ ) {
+				thisDates.unshift(TLDate-i);
+			}
+			
+			for (let i = 1; i <= dateCnt-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		} */
+		
+		console.log(prevDates);
+		console.log(thisDates);
+		console.log(nextDates);
+		
+		const dates = prevDates.concat(thisDates, nextDates);
+		
+		dates.forEach((date, i) => {
+			dates[i] = '<div class="date">' + date + '</div>';
+		})
+		
+		document.querySelector('.dates').innerHTML = dates.join('');
+	}
+	
+	renderCalendar();
+	
+	/* const prevWeek = () => {
+		if(date.getDate() < 7){
+			date.setDate(31-(7-date.getDate()));			
+		}else{
+			date.setDate(ate.getDate()-7);	
+		}
+		renderCalendar();
+	}
+	*/
+	const nextWeek = () => {
+		date.setDate(date.getDate()+7);
+		console.log(date.getDate());
+		renderCalendar();
+	} 
+	
+	const goToday = () => {
+		date = new Date();
+		renderCalendar();
+	}  
+	
+</script>
+</body>
+</html>

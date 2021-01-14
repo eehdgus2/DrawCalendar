@@ -1,0 +1,194 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>calendar</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="resources/calendar.css">
+</head>
+<body>
+<div class="calendar">
+	<div class="header">
+		<div class="year-month"></div>
+		<div class="nav">
+			<button class="nav-btn go-prev" onclick="prevWeek()">&lt;</button>
+			<button class="nav-btn go-today" onclick="goToday()">Today</button>
+			<button class="nav-btn go-next" onclick="nextWeek()">&gt;</button>
+		</div>
+	</div>
+	<div class="main">
+		<div class="days">
+			 <div class="day">일</div>
+             <div class="day">월</div>
+             <div class="day">화</div>
+             <div class="day">수</div>
+             <div class="day">목</div>
+             <div class="day">금</div>
+             <div class="day">토</div> 
+		</div>
+		<div class="dates"></div>
+	</div>
+</div>
+<script>
+	/* jshint esversion: 6 */
+	
+	let date = new Date();
+	const thisYear = date.getFullYear();
+	const thisMonth = 11;
+	var thisDate = 1;
+	const thisDay = 0;
+	const dateCnt = 35;
+	
+	const renderCalendar = () => {
+		
+		
+		
+		
+		document.querySelector('.year-month').textContent = thisYear+'년'+(thisMonth)+'월'+thisDate+'일'+thisDay;
+	
+		const preLast = new Date(thisYear, thisMonth-1, 0);
+		const thisLast = new Date(thisYear, thisMonth, 0);
+		const nextLast = new Date(thisYear, thisMonth+1, 0);
+		
+		const PLDate = preLast.getDate();
+		const TLDate = thisLast.getDate();
+		const NLDate = nextLast.getDate();
+		
+		const PLDay = preLast.getDay();
+		const TLDay = thisLast.getDay();
+		const NLDay = nextLast.getDay();
+		
+		const prevDates = [];
+		const thisDates = [];
+		const nextDates = [];
+		
+		 if( thisDay === 0 ) { // 앞에 7개의 data가 와야함
+			if( thisDate <= 7 ) { //첫째주는 전부 지난달 정보
+				for( let i = 0; i < 7; i++) {
+					prevDates.unshift(PLDate-i);	
+				} 
+				for( let i = 1; i < 35-prevDates.length; i ++ ) {
+					thisDates.push(i); 
+				}
+			}		
+			if( thisDate >7 && thisDate <=14) { //첫째주부터 이번달 정보 + 막날이후 다음달 정보
+				for( let i = 1; i <= TLDate; i++) {
+					thisDates.push(i);	
+				} 
+				console.log(thisDates.length);
+				for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+					nextDates.push(i); 
+				}
+			}
+			if( thisDate >14 && thisDate <=21) {
+				for( let i = 8; i < TLDate; i++) {
+					thisDates.push(i);	
+				} 
+				for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+					nextDates.push(i); 
+				}
+			}
+			if( thisDate >21 && thisDate <=28) {
+				for( let i = 15; i < TLDate; i++) {
+					thisDates.push(i);	
+				} 
+				for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+					nextDates.push(i); 
+				}
+			}
+			if( thisDate >28) {
+				for( let i = 22; i < TLDate; i++) {
+					thisDates.push(i);	
+				} 
+				for( let i = 1; i < 35-thisDates.length+1; i ++ ) {
+					nextDates.push(i); 
+				}
+			}
+		} 
+		
+		
+		
+	 	/* if(thisDate >=8 && thisDate <= 13) {
+			for (let i = 0; i <= PLDay+7; i++) {
+				prevDates.unshift(PLDate - i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length; i++) {
+				thisDates.push(i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		}
+	 	
+		 if(thisDate >13 && thisDate <= 20) {
+			for(let i = 1; i <= TLDate; i++ ) {
+				thisDates.push(i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		} */
+		 /*
+		if(thisDate > 12 && thisDate <=19 ) {
+			for(let i = 0; i <= TLDay; i++ ) {
+				thisDates.unshift(TLDate-i);
+			}
+			
+			for (let i = 1; i <= dateCnt-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		}
+		
+		if(thisDate > 19 ) {
+			for(let i = 0; i <= TLDay+7; i++ ) {
+				thisDates.unshift(TLDate-i);
+			}
+			
+			for (let i = 1; i <= dateCnt-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		} */
+		
+		console.log(prevDates);
+		console.log(thisDates);
+		console.log(nextDates);
+		
+		const dates = prevDates.concat(thisDates, nextDates);
+		
+		dates.forEach((date, i) => {
+			dates[i] = '<div class="date">' + date + '</div>';
+		})
+		
+		document.querySelector('.dates').innerHTML = dates.join('');
+	}
+	
+	renderCalendar();
+	
+	/* const prevWeek = () => {
+		if(date.getDate() < 7){
+			date.setDate(31-(7-date.getDate()));			
+		}else{
+			date.setDate(ate.getDate()-7);	
+		}
+		renderCalendar();
+	}
+	*/
+	const nextWeek = () => {
+		date.setDate(thisDate+7);
+		console.log(date.getDate());
+		renderCalendar();
+	} 
+	
+	const goToday = () => {
+		date = new Date();
+		renderCalendar();
+	}  
+	
+</script>
+</body>
+</html>

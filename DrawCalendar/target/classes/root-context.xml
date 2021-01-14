@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+		
+		<!-- base 패키지 -->
+		<context:component-scan base-package="com.draw_calendar.project" />
+	
+		<!-- db properties -->
+		<context:property-placeholder location="classpath:db_info.properties"/>
+		
+		<!-- datasource -->
+		<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource">
+			<property name="driverClassName" value="${draw.driver}"/>
+			<property name="url" value="${draw.url}"/>
+			<property name="username" value="${draw.name}"/>
+			<property name="password" value="${draw.pwd}"/>
+		</bean>
+		
+		<!-- jdbcTemlate -->
+		<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+			<property name="dataSource" ref="dataSource" />
+		</bean> 
+		
+		<!-- mybatis -->
+		<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+			<property name="dataSource" ref="dataSource"/>
+			<property name="configLocation" value="classpath:draw_mapper.xml" />
+			<property name="mapperLocations">
+				<list>
+					<value>classpath:mappers/com_member_mapper.xml</value>
+					<value>classpath:mappers/draw_site_mapper.xml</value>
+					<value>classpath:mappers/items_mapper.xml</value>
+				</list>
+			</property>
+		</bean>
+		
+		<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+			<constructor-arg ref="sqlSessionFactory" />
+		</bean>
+</beans>

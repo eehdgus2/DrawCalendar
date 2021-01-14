@@ -1,0 +1,96 @@
+1607493700529	Delete elements
+1607581093136	Rename package 'com.project.draw.brand.domain'
+1607581123751	Rename package 'com.project.draw.brand.service'
+1607581142545	Rename package 'com.project.draw.brand'
+1607581148880	Rename package 'com.project.draw.com_member'
+1607581160049	Rename package 'com.project.draw.com_member.controller'
+1607581198824	Rename package 'com.project.draw.com_member.domain'
+1607581207171	Rename package 'com.project.draw.com_member.service'
+1607581220358	Rename package 'com.project.draw.draw_plan'
+1607581243195	Move compilation unit
+1607581255774	Rename package 'com.project.draw.draw_site'
+1607581263105	Rename package 'com.project.draw.draw_site.controller'
+1607581270455	Rename package 'com.project.draw.draw_site.domain'
+1607581279468	Rename package 'com.project.draw.draw_site.service'
+1607581283765	Rename package 'com.project.draw.items'
+1607581291373	Rename package 'com.project.draw.items.controller'
+1607581298365	Rename package 'com.project.draw.items.domain'
+1607581304405	Rename package 'com.project.draw.items.service'
+1607581312210	Rename package 'com.project.draw.like_list'
+1607581321736	Rename package 'com.project.draw.member'
+1607581358563	Rename package 'com.project.draw'
+1607581372915	Rename package 'com.project.draw.brand_service'
+1607581381504	Rename package 'com.project.draw.brandDAO'
+1607581391934	Rename package 'com.project.draw.brandVO'
+1607581401321	Rename package 'com.project.draw.com_member_controller'
+1607581411600	Rename package 'com.project.draw.com_member_service'
+1607581418835	Rename package 'com.project.draw.com_memberDAO'
+1607581425490	Rename package 'com.project.draw.com_memberVO'
+1607581433609	Rename package 'com.project.draw.draw_planDAO'
+1607581440273	Rename package 'com.project.draw.draw_planVO'
+1607581447478	Rename package 'com.project.draw.draw_site_controller'
+1607581453416	Rename package 'com.project.draw.draw_site_service'
+1607581458885	Rename package 'com.project.draw.draw_siteDAO'
+1607581464515	Rename package 'com.project.draw.draw_siteVO'
+1607581469910	Rename package 'com.project.draw.items_controller'
+1607581482638	Rename package 'com.project.draw.items._ervice'
+1607581497673	Rename package 'com.project.draw.itemsDAO'
+1607581504731	Rename package 'com.project.draw.itemsVO'
+1607581511592	Rename package 'com.project.draw.like_listVO'
+1607581516478	Rename package 'com.project.draw.memberVO'
+1607581558714	Rename package 'com.draw_calendar.projectVO'
+1607581658351	Move compilation unit
+1607581668670	Move compilation unit
+1607581677027	Move compilation unit
+1607581685103	Move compilation unit
+1607581694932	Move compilation unit
+1607581701050	Move compilation unit
+1607581707304	Move compilation unit
+1607581728004	Move compilation unit
+1607581734856	Move compilation unit
+1607581740226	Move compilation unit
+1607581745269	Move compilation unit
+1607581753293	Move compilation unit
+1607581786467	Move compilation unit
+1607581801272	Move compilation unit
+1607581810974	Move compilation unit
+1607581822226	Move compilation unit
+1607581833420	Move compilation unit
+1607581863339	Move compilation unit
+1607581868452	Move compilation unit
+1607581877632	Move compilation unit
+1607582209233	Delete element
+1607582212416	Delete element
+1607582214396	Delete element
+1607582216651	Delete element
+1607582218764	Delete element
+1607582220863	Delete element
+1607582223591	Delete element
+1607582226047	Delete element
+1607582233000	Delete elements
+1607582378777	Rename resource 'home.jsp'
+1607583044475	Delete element
+1607583398665	Delete element
+1607583486486	Move file
+1607583609577	Move file
+1607583666766	Move file
+1607583671969	Move file
+1607583673753	Move file
+1607583675665	Move file
+1607583687639	Move file
+1607583690383	Move file
+1607584124840	Move file
+1607584128475	Move file
+1607584166796	Move file
+1607584198282	Move file
+1607584208183	Move file
+1607584211988	Move file
+1607584289392	Move file
+1607584587625	Move file
+1607584599181	Move file
+1607584611491	Move file
+1607584680512	Move file
+1607584688157	Move file
+1607584690383	Move file
+1607584693164	Move file
+1607790532773	Delete element

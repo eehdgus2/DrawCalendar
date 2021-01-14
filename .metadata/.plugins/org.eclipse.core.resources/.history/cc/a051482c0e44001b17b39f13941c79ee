@@ -1,0 +1,109 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ taglib uri ="http://java.sun.com/jstl/core_rt" prefix="c" %>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상품 정보 상세 보기</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="resources/js/header.js"></script>
+<script src="resources/js/slide.js"></script>
+<link rel="stylesheet" href="resources/css/main_form_slide.css">
+<link rel="stylesheet" href="resources/css/detail_item.css">
+<script>
+	var kind='${kind}';
+</script>
+</head>
+<body>
+<div id="header">	
+	<div class="header_wrap">
+		<div class="logo_box"><a href="index.jsp"><img src="resources/img/logo.png"  width="300px" height="85px"alt="" /></a></div>
+		<div class="nav_box">
+			<ul>
+				<li><button id="login_btn" onclick="" ><img src="resources/img/user_icon.png" width="45px" height="45px" alt="" /></button></li>
+				<li><button id="news_btn" onclick="" ><img src="resources/img/news.png" width="60px" height="60px" alt="" /></button></li>
+			</ul>
+		</div>
+		<div class="member_box"></div>
+	</div>
+	<div class="main_img">
+		<div class="slide_wrap">
+			<ul class="slide">
+				<li>
+					<img class=" aa" src="resources/img/Nike x PEACEMINUSONE Para-Noise 2.0.jpg" width="100%" height="650px" alt="" />
+				</li>
+				<li>
+					<img src="resources/img/Nike x AMBUSH Dunk High Black.jpg" width="100%" height="650px" alt="" />
+				</li>
+				<li>	
+					<img src="resources/img/LEVI'S X NEW BALANCE 327.jpg" width="100%" height="650px" alt="" />
+				</li>
+				<li>
+					<img src="resources/img/ADIDAS YEEZY BOOST 350 V2 ZEBRA.jpg" width="100%" height="650px" alt="" />
+				</li>
+				<li>
+					<img src="resources/img/SACAI X NIKE VAPORWAFFLE BLACK.jpg" width="100%" height="650px" alt="" />
+				</li>			
+			</ul>
+			<div class="btns" id="next"><img src="resources/img/next_white.png" width="50px" height="70px" alt="" /></div>
+			<div class="btns" id="prev"><img src="resources/img/prev_white.png" width="50px" height="70px" alt="" /></div>
+            <div class="indicator_wrap">
+	            <ul>
+	            </ul>
+          </div>
+		</div>
+	</div>
+</div>
+<div id="container">
+	<div class="item_wrap">
+		<br />
+		<div class="name_box">
+			<p>${ item.model_name }</p>
+		</div>
+		<div class="img_box">
+			<img src="resources/img/shoes/b_${item.item_img}.png" alt="" />
+		</div>
+		<div class="text_box">
+			<table>
+				<tr>
+					<td><label for="">모델명 </label></td>
+					<td>${ item.model_name }</td>
+				</tr>
+				<tr>
+					<td><label for="">가격</label></td>
+					<td>${ item.price }</td>
+				</tr>
+				<tr>
+					<td><label for="">사이즈</label></td>
+					<td>${ item.s_size }</td>
+				</tr>
+				<tr>
+					<td><label for="">콜라보</label></td>
+					<td>${ item.collaboration }</td>
+				</tr>
+				<tr>
+					<td><label for="">응모일</label></td>
+					<td>${ item.draw_date }</td>
+				</tr>
+				<tr>
+					<td><label for="">추첨일</label></td>
+					<td>${ item.announce_date }</td>
+				</tr>
+				<tr>
+					<td><label for="">구매일</label></td>
+					<td>${ item.purchase_date }</td>
+				</tr>
+				<%-- <tr>
+					<td><label for="">구매사이트</label></td>
+					<td>${ item.site_code }</td>
+				</tr> --%>
+			</table>
+		</div>
+	</div>
+</div>
+<div id="footer">
+	<h1>푸터ㅓㅓㅓㅓㅓ</h1>
+</div>
+</body>
+</html>

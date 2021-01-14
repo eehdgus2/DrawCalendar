@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="itemsDAO">
+ 	<insert id="insert_items" parameterType="items">
+ 		<![CDATA[
+ 		insert into items values(#{brand_code},#{model_name},#{model_code},#{price},#{s_size},#{collaboration},#{draw_date},#{announce_date},#{purchase_date}, #{site_code}, #{reg_management}, #{rank}, #{item_img}, #{brand_name} )
+ 		]]>
+ 	</insert>
+ 	
+ 	<update id="update_items" parameterType="items">
+ 		<![CDATA[
+ 		update items set model_name = #{model_name}, price = #{price}, s_size = #{s_size}, draw_date = #{draw_date}, collaboration =#{collaboration}, announce_date = #{announce_date}, purchase_date = #{purchase_date}, site_code = #{site_code} where model_code = #{model_code}
+ 		]]>
+ 	</update>
+ 	
+ 	<update id="update_rank" parameterType="items">
+ 		<![CDATA[
+ 		update items set rank=#{rank} where brand_code = #{brand_code} 
+ 		]]>
+ 	</update>
+ 	
+ 	<update id="update_reg_management" parameterType="items">
+ 		<![CDATA[
+ 		update items set reg_management = #{reg_management} where model_code = #{model_code} 
+ 		]]>
+ 	</update>
+ 	
+ 	<delete id="delete_items" parameterType="items">
+		<![CDATA[
+		delete items where  model_code = #{model_code}
+		]]>
+	</delete>
+	
+	<select id="select_items" resultType="items" parameterType="items">
+		<![CDATA[
+		select * from items where model_code = #{model_code}
+		]]>
+	</select>
+	
+	<select id="select_items_list" resultType="items" parameterType="items">
+		<![CDATA[
+		select * from items where ${search_condition} like '%'||#{search_keyword}||'%' order by draw_date 
+		]]>
+	</select>
+	
+	<select id="count_items" resultType="int" parameterType="items">
+		<![CDATA[
+		select count(*) from items where ${search_condition} like '%'||#{search_keyword}||'%'
+		]]>
+	</select>
+	
+	<select id="count_items_com" resultType="int" parameterType="items">
+		<![CDATA[
+		select count(*) from (select * from items where brand_name = #{brand_name}) where ${search_condition} like '%'||#{search_keyword}||'%'
+		]]>
+	</select>
+	
+	<select id="select_items_list_paging" resultType="items" parameterType="page">
+		<![CDATA[
+		select *
+		from (
+			select rownum rn, a.* 
+				from (
+						select * 
+						from items 
+						where ${search_condition} like '%'||#{search_keyword}||'%' 
+						order by draw_date
+						) a
+				)
+		where rn between #{start} and #{end}
+		]]>
+	</select>
+	
+	<select id="select_items_list_com" resultType="items" parameterType="page">
+		<![CDATA[
+		select * 
+		from (
+			select rownum rn, a.* 
+				from (
+						select * 
+						from (select * from items where brand_name = #{brand_name}) 
+						where ${search_condition} like '%'||#{search_keyword}||'%' 
+						order by draw_date
+						) a
+				)
+		where rn between #{start} and #{end}
+		]]>
+	</select>
+</mapper>

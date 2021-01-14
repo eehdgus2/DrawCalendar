@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <typeAliases>
+  	<typeAlias type="com.draw_calendar.project.VO.Com_memberVO" alias="com_member"/>
+  	<typeAlias type="com.draw_calendar.project.VO.Draw_siteVO" alias="draw_site"/>
+  	<typeAlias type="com.draw_calendar.project.VO.ItemsVO" alias="items"/>
+  	<typeAlias type="com.draw_calendar.project.VO.PagingVO" alias="page"/>
+  </typeAliases>
+</configuration>

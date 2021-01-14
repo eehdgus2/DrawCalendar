@@ -1,0 +1,221 @@
+<%@page import="java.util.Comparator"%>
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.LinkedHashMap"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="com.draw_calendar.project.VO.ItemsVO"%>
+<%@page import="com.draw_calendar.project.DAO.ItemsDAO"%>
+<%@page import="org.springframework.context.support.GenericXmlApplicationContext"%>
+<%@page import="org.springframework.context.ApplicationContext"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+
+
+	//객체 생성, 아이템 목록 가져오기
+	ApplicationContext ctx = new GenericXmlApplicationContext("classpath:root-context.xml");
+	ItemsDAO dao = ctx.getBean("itemsDAO", ItemsDAO.class);
+	ItemsVO vo = new ItemsVO();
+	
+	List<ItemsVO> ranked_items = dao.select_items_list(vo);
+	
+	//쿠키 관련 객체 생성
+	Cookie[] cookies = request.getCookies();
+	String[] item_cookie_list = null;
+	Map<String, Integer> cookie_brand_cnt = new HashMap<String, Integer>();
+	
+	//가져온 쿠키 구분자로 구분
+	if(cookies !=null && cookies.length > 0 ) {
+		for(int i = 0; i < cookies.length; i++) {
+			if ( cookies[i].getName().equals("item_cookie")){
+				item_cookie_list = cookies[i].getValue().substring(0,cookies[i].getValue().length()-1).split("/");
+				break;
+			}
+		}
+	}
+	
+	//Map에 담아 쿠키 숫자 카운트
+	if( item_cookie_list != null){
+		for(String list : item_cookie_list){
+			if(cookie_brand_cnt.containsKey(list)){
+				cookie_brand_cnt.put(list, cookie_brand_cnt.get(list)+1 );
+			} else {
+				cookie_brand_cnt.put(list, 1);
+			}
+		}
+	}
+	
+	//쿠키 카운트 기준으로 정렬 오름차순
+	List<String> brand_rank = new ArrayList<String>();
+	List<Entry<String, Integer>> list_entries = new ArrayList<Entry<String, Integer>>(cookie_brand_cnt.entrySet());
+
+	Collections.sort(list_entries, new Comparator<Entry<String, Integer>>() {
+		
+		public int compare(Entry<String, Integer> obj1, Entry<String, Integer> obj2) {
+			return obj2.getValue().compareTo(obj1.getValue());
+		}
+	});
+	
+	//키 값만 저장
+	for(int i = 0; i < list_entries.size(); i ++) {
+		brand_rank.add(list_entries.get(i).getKey());
+	}
+
+	System.out.println(brand_rank.toString());
+	System.out.println(cookie_brand_cnt.toString());
+
+	//저장된 키값을 기준으로 가져온 객체에 Order 할당
+	for(int i = 0; i < ranked_items.size(); i ++) {
+		for(int j = 0; j < brand_rank.size(); j ++) {
+			if(ranked_items.get(i).getBrand_code().equals(brand_rank.get(j))) {
+					ranked_items.get(i).setRank(j+1); 
+			} 
+		}
+	}
+	
+	// Order 기준으로  객체 리스트 정렬, 내림차순
+	Comparator<ItemsVO> comparator = new Comparator<ItemsVO>() {
+	    @Override
+	    public int compare(ItemsVO a, ItemsVO b) {
+	        return a.getRank() - b.getRank();
+	    }
+	};
+	Collections.sort(ranked_items, comparator);
+	
+	//페이지로 전송
+	System.out.println(ranked_items);
+	pageContext.setAttribute("items_list", ranked_items);
+	
+	
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DrawCalendar</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$(document).on('click', '.go_to_month', function(){
+			$('.the_iframe').attr('src', 'calendar.jsp');
+		});
+		$(document).on('click', '.go_to_week', function(){
+			$('.the_iframe').attr('src', 'week.jsp');
+		});
+		$(document).on('click', '.go_to_list', function(){
+			$('.the_iframe').attr('src', 'item_list.do');
+		});
+	});
+</script>
+<style>
+	#header {
+		position : relative;
+		max-width: 1250px;
+		margin: 0 auto;
+		text-align: center;
+	}
+	#container {
+		position : relative;
+		max-width: 1250px;
+		margin: 0 auto;
+		text-align: center;
+	}
+	iframe {
+		position: relative;
+		display: block;
+		width: 100%;
+		min-height:500px;"
+		overflow-x: hidden; 
+		overflow: auto;  
+	}
+	#footer {
+		position : relative;
+		max-width: 1250px;
+		margin: 0 auto;
+		text-align: center;
+	}
+	
+	.items_section {
+		position: relative;
+		max-width: 1250px;
+		height: 350px;
+		display: flex;
+		overflow-x: scroll;
+		padding: 10px 20px;	
+	}
+	
+	.item-box {
+		position: relative;
+		min-width: 350px;
+		height: 300px;
+		margin: 10px 50px;
+		display: flex;
+	}
+	
+	a {
+		display: block;
+		width: 400px;
+		text-decoration: none;
+		color: black;
+	}
+	
+	
+	.img_box {
+		position: relative;
+		padding-top: 100px;
+		width: 100px;
+	}
+	
+	.text_box {
+		line-height: 30px;
+		padding: 3px 10px;
+	}
+</style>
+</head>
+<body>
+<div id="header">
+<h1>헤더입니다ㅓㅓㅓㅓㅓ</h1>
+</div>
+<div id="container">
+	<a href="login.jsp">로그인</a><br />
+	<a href="insert_all_member.jsp">회원가입</a><br />
+	<div class="calendar_wrap">
+		<br />
+		<button class="go_to_month">Month</button>
+		<button class="go_to_week">Week</button>
+		<button class="go_to_list">List</button>
+		<iframe class="the_iframe" src="calendar.jsp" frameborder="0" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+30)+'px';"></iframe>
+	</div>
+	<div class="items_section">
+		<c:forEach items="${ items_list }" var="item">
+			<a href="item_detail.do?model_code=${item.model_code }">
+				<div class="item-box">
+					<!-- <form action="item_detail.do" method="get"> -->
+						<div class="img_box">	
+							<img src="http://placehold.it/50x50" alt="" />
+						</div>
+						<div class="text_box">
+							<h3>모델명 : ${item.model_name }</h3>
+							<p>브랜드 : ${item.brand_code }</p>
+							<p>가격 : ${item.price }</p>
+							<p>응모일 : ${item.draw_date }</p>
+							<!-- <input type="submit" value="상세보기" /> -->
+						</div>
+					<!-- </form> -->
+				</div>
+			</a>
+		</c:forEach>
+	</div>
+</div>
+
+<div id="footer">
+
+<h1>푸터ㅓㅓㅓㅓㅓ</h1>
+</div>
+
+</body>
+</html>

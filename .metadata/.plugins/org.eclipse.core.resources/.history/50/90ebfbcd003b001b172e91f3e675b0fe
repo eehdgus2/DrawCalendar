@@ -1,0 +1,80 @@
+<%@page import="com.draw_calendar.project.VO.ItemsVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%
+	ItemsVO vo = (ItemsVO)request.getAttribute("item");	
+
+	Cookie[] cookies  = request.getCookies();
+	boolean item_cookie_state = false;
+	Cookie cookie = null;
+	
+	if( cookies != null && cookies.length > 0) {
+		for(int i = 0; i < cookies.length; i ++) {
+			if (cookies[i].getName().equals("item_cookie")) {
+				item_cookie_state = true;
+				cookie =  new Cookie(cookies[i].getName(), cookies[i].getValue()+vo.getBrand_code()+"/");
+			}
+		}
+	}
+	
+	if( !item_cookie_state ) {
+		cookie = new Cookie("item_cookie", vo.getBrand_code()+"/"); 
+	}
+	response.addCookie(cookie);
+
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+</head>
+<body>
+<div id="container">
+	<h1>제품 상세보기</h1>
+	<div class="item_wrap">
+		<div class="img_box">
+			<img src="resources/img/red_shoes_icon.png" alt="" />
+		</div>
+		<div class="text_box">
+			<table>
+				<tr>
+					<td><label for="">모델명 : </label></td>
+					<td>${ item.model_name }</td>
+				</tr>
+				<tr>
+					<td><label for="">가격 : </label></td>
+					<td>${ item.price }</td>
+				</tr>
+				<tr>
+					<td><label for="">사이즈 : </label></td>
+					<td>${ item.s_size }</td>
+				</tr>
+				<tr>
+					<td><label for="">콜라보 : </label></td>
+					<td>${ item.collaboration }</td>
+				</tr>
+				<tr>
+					<td><label for="">응모일 : </label></td>
+					<td>${ item.draw_date }</td>
+				</tr>
+				<tr>
+					<td><label for="">추첨일 : </label></td>
+					<td>${ item.announce_date }</td>
+				</tr>
+				<tr>
+					<td><label for="">구매일 : </label></td>
+					<td>${ item.purchase_date }</td>
+				</tr>
+				<tr>
+					<td><label for="">구매사이트 : </label></td>
+					<td>${ item.site_code }</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>

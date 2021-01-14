@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+	.iframe_nav {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		width: 60%;
+		margin: 20px auto;
+	}
+	
+	.iframe_nav button {
+		width: calc(90%/3);
+		height: 30px;
+		border: none;
+		background: #1e1e1e;
+		color: white;
+		cursor: pointer;
+	}
+	
+	.the_iframe {
+		position: relative;
+		display: block;
+		margin: 0 auto;
+		width: 80%;
+		min-height:500px;
+		overflow: auto;  
+	}
+	
+	.item_iframe {
+		position: relative;
+		display: block;
+		margin: 0 auto;
+		width: 100%;
+		min-height:300px;
+		overflow: auto;
+		margin-top: 200px;  
+	}
+	
+	.items_section {
+		position: relative;
+		max-width: 1250px;
+		height: 350px;
+		display: flex;
+		overflow-x: scroll;
+		padding: 10px 20px;	
+	}
+	
+	.item-box {
+		position: relative;
+		min-width: 350px;
+		height: 300px;
+		margin: 10px 50px;
+		display: flex;
+	}
+	

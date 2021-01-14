@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+	*:focus {
+		outline: none;
+	}
+
+	ul, ol, li {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	a {
+		text-decoration: none;
+		color: black;
+	}	
+
+	#header {
+		position : relative;
+		max-width: 1250px;
+		margin: 0 auto;
+		text-align: center;
+	}
+	
+	.header_wrap {
+		background: #1e1e1e;
+		display : flex;
+		justify-content: space-between;
+	}
+	
+	.logo_box {
+		padding-top: 10px;
+	}
+	
+	#container {
+		position : relative;
+		max-width: 1250px;
+		margin: 0 auto;
+		text-align: center;
+	}
+	
+	.insert_box {
+		position: relative;
+		width: 80%; 
+		margin: 50px auto;
+		background: #f5f5f5;
+		opacity: 0.96;
+	}
+	
+	.insert_box>h2 {
+		width: 200px;
+		margin-left: 45px;
+	}
+	
+	
+	.insert_box hr {
+		width: 80%;
+	}
+	
+	.insert_form form {
+		width: 390px;
+		margin: 0 auto;
+		margin-top: 40px;
+		display: block;
+	}
+	
+	.insert_form form label {
+		display: block;
+		width: 150px;
+		margin: 19px 30px 8px;
+		font-size: 15px;
+		font-weight: bold;
+		text-align: left;
+	}
+	
+	.insert_form form input {
+		width: 380px;
+		height: 35px;
+		border: 2px solid #c8c8c8;
+		box-shadow: none;
+		margin: 3px 0;
+	}
+	
+	.insert_form form input.plan_submit {
+		width: 387px;
+		height: 42px;
+		margin-bottom: 60px;
+		border: none;
+		box-shadow: none;
+		background: #1e1e1e;
+		vertical-align: -1px;
+		color: white;
+		cursor: pointer;
+	}
+	
+	.insert_form form select {
+		width: 387px;
+		height: 42px;
+		border: 2px solid #c8c8c8;
+		border-color: #c8c8c8;
+	}
+	
+	.insert_form form .draw_date input {
+		width: 184px;
+		height: 35px;
+		border: 2px solid #c8c8c8;
+		box-shadow: none;
+	}
+	
+	.insert_form form .draw_date select {
+		width: 191px;
+		height: 41px;
+		border: 2px solid #c8c8c8;
+		border-color: #c8c8c8;
+	}

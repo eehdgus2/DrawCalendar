@@ -1,0 +1,153 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>calendar</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="resources/calendar.css">
+</head>
+<body>
+<div class="calendar">
+	<div class="header">
+		<div class="year-month"></div>
+		<div class="nav">
+			<button class="nav-btn go-prev" onclick="prevWeek()">&lt;</button>
+			<button class="nav-btn go-today" onclick="goToday()">Today</button>
+			<button class="nav-btn go-next" onclick="nextWeek()">&gt;</button>
+		</div>
+	</div>
+	<div class="main">
+		<div class="days">
+			 <div class="day">일</div>
+             <div class="day">월</div>
+             <div class="day">화</div>
+             <div class="day">수</div>
+             <div class="day">목</div>
+             <div class="day">금</div>
+             <div class="day">토</div> 
+		</div>
+		<div class="dates"></div>
+	</div>
+</div>
+<script>
+	/* jshint esversion: 6 */
+	
+	let date = new Date();
+	
+	const renderCalendar = () => {
+		const thisYear = date.getFullYear();
+		const thisMonth = date.getMonth();
+		const thisDate = date.getDate();
+		const dateCnt = 35;
+		
+		document.querySelector('.year-month').textContent = thisYear+'년'+(thisMonth+1)+'월'+thisDate+'일';
+	
+		const preLast = new Date(thisYear, thisMonth, 0);
+		const thisLast = new Date(thisYear, thisMonth+1, 0);
+		const nextLast = new Date(thisYear, thisMonth+2, 0);
+		
+		const PLDate = preLast.getDate();
+		const TLDate = thisLast.getDate();
+		const NLDate = nextLast.getDate();
+		
+		console.log(PLDate+' '+TLDate+' '+NLDate);
+		
+		const PLDay = preLast.getDay();
+		const TLDay = thisLast.getDay();
+		const NLDay = nextLast.getDay();
+		
+		console.log(PLDay+' '+TLDay+' '+NLDay);
+		
+		const prevDates = [];
+		const thisDates = [];
+		const nextDates = [];
+		
+		console.log(prevDates.length);
+		
+	 	if(thisDate <= 7) {
+			for (let i = 0; i <= PLDay+7; i++) {
+				prevDates.unshift(PLDate - i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length; i++) {
+				thisDates.push(i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		}
+		
+		if(thisDate >7 && thisDate <= 14) {
+			for(let i = 1; i <= TLDate; i++ ) {
+				thisDates.push(i);
+			}
+			
+			for (let i = 1; i <= dateCnt-prevDates.length-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		}
+		
+		if(thisDate > 14 && thisDate <=21 ) {
+			for(let i = 0; i <= TLDay; i++ ) {
+				thisDates.unshift(TLDate-i);
+			}
+			
+			for (let i = 1; i <= dateCnt-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		}
+		
+		if(thisDate > 21 ) {
+			for(let i = 0; i <= TLDay+7; i++ ) {
+				thisDates.unshift(TLDate-i);
+			}
+			
+			for (let i = 1; i <= dateCnt-thisDates.length; i++) {
+				nextDates.push(i);
+			}
+		}
+		
+		console.log(prevDates);
+		console.log(thisDates);
+		console.log(nextDates);
+		
+		const dates = prevDates.concat(thisDates, nextDates);
+		
+		dates.forEach((date, i) => {
+			dates[i] = '<div class="date">' + date + '</div>';
+		})
+		
+		document.querySelector('.dates').innerHTML = dates.join('');
+	}
+	
+	renderCalendar();
+	
+	const prevWeek = () => {
+		const thisYear = date.getFullYear();
+		const thisMonth = date.getMonth();
+		const preLast = new Date(thisYear, thisMonth, 0);
+		const PLDate = preLast.getDate();
+		if(date.getDate() < 7){
+			date.setDate(PLDate-(7-date.getDate()));			
+		}else{
+			date.setDate(ate.getDate()-7);	
+		}
+		renderCalendar();
+	}
+	
+	const nextWeek = () => {
+		date.setDate(date.getDate()+7);
+		renderCalendar();
+	}
+	
+	const goToday = () => {
+		date = new Date();
+		renderCalendar();
+	} 
+	
+</script>
+</body>
+</html>
